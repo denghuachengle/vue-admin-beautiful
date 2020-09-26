@@ -1,19 +1,14 @@
 <template>
-  <div class="echarts-container">
-    <el-row :gutter="20">
-      <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
-        <el-card class="card" shadow="never">
-          <div slot="header">
-            <span>中国地图</span>
-          </div>
-          <vab-chart
-            :autoresize="true"
-            theme="vab-echarts-theme"
-            :options="zgdt"
-          />
-        </el-card>
-      </el-col>
-    </el-row>
+  <div class="map-container">
+    <div slot="header">
+      <span></span>
+    </div>
+    <vab-chart
+      class="container"
+      :autoresize="true"
+      theme="vab-echarts-theme"
+      :options="zgdt"
+    />
   </div>
 </template>
 
@@ -30,74 +25,126 @@ export default {
     return {
       //中国地图
       zgdt: {
-        title: {
-          text: "2099年全国GDP分布",
-          subtext: "数据来自vue-admin-beautiful杜撰",
-        },
         tooltip: {
-          trigger: "item",
+          triggerOn: "click",
+          formatter: function (e, t, n) {
+            return 0.5 == e.value
+              ? e.name + "：有疑似病例"
+              : e.seriesName + "<br />" + e.name + "：" + e.value;
+          },
         },
-        dataRange: {
-          orient: "horizontal",
+        visualMap: {
           min: 0,
-          max: 55000,
-          text: ["高", "低"],
-          splitNumber: 0,
+          max: 1000,
+          left: 26,
+          bottom: 40,
+          showLabel: !0,
+
+          pieces: [
+            {
+              gt: 11,
+              label: "> 10 人",
+              color: "#7f1100",
+            },
+            {
+              gte: 6,
+              lte: 11,
+              label: "6 - 10 人",
+              color: "#ff5428",
+            },
+            {
+              gte: 3,
+              lte: 6,
+              label: "3 - 5 人",
+              color: "#e2a40b",
+            },
+            {
+              gte: 2,
+              lte: 3,
+              label: "2 人",
+              color: "#d4b86f",
+            },
+            {
+              gte: 1,
+              lt: 2,
+              label: "1 人",
+              color: "#ff8c71",
+            },
+            {
+              value: 0,
+              color: "#ffffff",
+            },
+          ],
+          show: !0,
+        },
+        geo: {
+          map: "china",
+          roam: !1,
+          scaleLimit: {
+            min: 1,
+            max: 2,
+          },
+          zoom: 1.23,
+          top: 120,
+          label: {
+            normal: {
+              show: !0,
+              fontSize: "14",
+              color: "rgba(0,0,0,0.7)",
+            },
+          },
+          itemStyle: {
+            normal: {
+              //shadowBlur: 50,
+              //shadowColor: 'rgba(0, 0, 0, 0.2)',
+              borderColor: "rgba(0, 0, 0, 0.2)",
+            },
+            emphasis: {
+              areaColor: "#f2d5ad",
+              shadowOffsetX: 0,
+              shadowOffsetY: 0,
+              borderWidth: 0,
+            },
+          },
         },
         series: [
           {
-            name: "2099年全国GDP分布",
+            name: "确诊病例",
             type: "map",
-            roam: false,
-            mapType: "china",
-            mapLocation: {
-              x: "center",
-            },
-            selectedMode: "multiple",
-            itemStyle: {
-              normal: {
-                label: {
-                  show: false,
-                },
-              },
-              emphasis: {
-                label: {
-                  show: true,
-                },
-              },
-            },
+            geoIndex: 0,
             data: [
-              { name: "西藏", value: 605.83 },
-              { name: "青海", value: 1670.44 },
-              { name: "宁夏", value: 2102.21 },
-              { name: "海南", value: 2522.66 },
-              { name: "甘肃", value: 5020.37 },
-              { name: "贵州", value: 5701.84 },
-              { name: "新疆", value: 6610.05 },
-              { name: "云南", value: 8893.12 },
-              { name: "重庆", value: 10011.37 },
-              { name: "吉林", value: 10568.83 },
-              { name: "山西", value: 11237.55 },
-              { name: "天津", value: 11307.28 },
-              { name: "江西", value: 11702.82 },
-              { name: "广西", value: 11720.87 },
-              { name: "陕西", value: 12512.3 },
-              { name: "黑龙江", value: 12582 },
-              { name: "内蒙古", value: 14359.88 },
-              { name: "安徽", value: 15300.65 },
-              { name: "北京", value: 16251.93 },
-              { name: "福建", value: 17560.18 },
-              { name: "上海", value: 19195.69 },
-              { name: "湖北", value: 19632.26 },
-              { name: "湖南", value: 19669.56 },
-              { name: "四川", value: 21026.68 },
-              { name: "辽宁", value: 22226.7 },
-              { name: "河北", value: 24515.76 },
-              { name: "河南", value: 26931.03 },
-              { name: "浙江", value: 32318.85 },
-              { name: "山东", value: 45361.85, selected: true },
-              { name: "江苏", value: 49110.27 },
-              { name: "广东", value: 53210.28 },
+              { name: "西藏", value: 0 },
+              { name: "青海", value: 0 },
+              { name: "宁夏", value: 1 },
+              { name: "海南", value: 1 },
+              { name: "甘肃", value: 2 },
+              { name: "贵州", value: 4 },
+              { name: "新疆", value: 0 },
+              { name: "云南", value: 0 },
+              { name: "重庆", value: 2 },
+              { name: "吉林", value: 0 },
+              { name: "山西", value: 1 },
+              { name: "天津", value: 0 },
+              { name: "江西", value: 2 },
+              { name: "广西", value: 0 },
+              { name: "陕西", value: 1 },
+              { name: "黑龙江", value: 0 },
+              { name: "内蒙古", value: 3 },
+              { name: "安徽", value: 5 },
+              { name: "北京", value: 1 },
+              { name: "福建", value: 0 },
+              { name: "上海", value: 0 },
+              { name: "湖北", value: 116 },
+              { name: "湖南", value: 2 },
+              { name: "四川", value: 2 },
+              { name: "辽宁", value: 0 },
+              { name: "河北", value: 0 },
+              { name: "河南", value: 7 },
+              { name: "浙江", value: 1 },
+              { name: "山东", value: 1, selected: true },
+              { name: "江苏", value: 2 },
+              { name: "广东", value: 3 },
+              { name: "台湾", value: 0 },
             ],
           },
         ],
@@ -110,7 +157,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.echarts {
-  width: 100%;
+.map-container {
+  .container {
+    width: 100%;
+    height: calc(100vh - 214px);
+  }
 }
 </style>

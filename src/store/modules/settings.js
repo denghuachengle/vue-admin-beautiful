@@ -16,7 +16,7 @@ const state = {
   header: theme.header || header,
   skeleton,
   device: "desktop",
-  themeBar,
+  //themeBar,
 };
 const getters = {
   collapse: (state) => state.collapse,
@@ -25,7 +25,7 @@ const getters = {
   layout: (state) => state.layout,
   logo: (state) => state.logo,
   tagsBar: (state) => state.tagsBar,
-  themeBar: (state) => state.themeBar,
+  //themeBar: (state) => state.themeBar,
   skeleton: (state) => state.skeleton,
 };
 const mutations = {
