@@ -54,6 +54,23 @@ export const asyncRoutes = [
     ],
   },
   {
+    path: "/epidemicMap",
+    component: Layout,
+    redirect: "epidemicMap",
+    children: [
+      {
+        path: "epidemicMap",
+        name: "epidemicMap",
+        component: () => import("@/views/epidemicMap/index"),
+        meta: {
+          title: "疫情地图",
+          icon: "home",
+          affix: true,
+        },
+      },
+    ],
+  },
+  {
     path: "/personalCenter",
     component: Layout,
     hidden: true,
